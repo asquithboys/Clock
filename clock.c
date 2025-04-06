@@ -39,12 +39,13 @@ int main(int argc, char **argv) {
         {"help", no_argument, 0, 'h'},
         {"version", no_argument, 0, 'v'},
         {"color", required_argument, 0, 'c'},
+        {"fullscreen", no_argument, 0, 'f'},
         {0, 0, 0, 0}
       };
 
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "hvc:", long_options, &option_index);
+    c = getopt_long (argc, argv, "hvc:f", long_options, &option_index);
 
     if (c == -1)
       break;
@@ -55,9 +56,10 @@ int main(int argc, char **argv) {
 
     case 'h':
       puts("Displays a clock with local time\n\
-\t-c --color   sets the color of the text\n\
-\t-v --version displays the version and license info\n\
-\t-h --help    displays this help message");
+\t-c --color      sets the color of the text\n\
+\t-f --fullscreen displays the clock in fullscreen\n\
+\t-v --version    displays the version and license info\n\
+\t-h --help       displays this help message");
       exit(0);
 
     case 'v':
@@ -81,13 +83,19 @@ There in NO WARRANTY, to the extent permitted by law.\n\n\
       color = (Color){r, g, b, 255};
       break;
 
+    case 'f':
+      SetConfigFlags(FLAG_FULLSCREEN_MODE);
+      break;
+
     default:
       exit(1);
     }
   }
 
-  const int screenWidth = 800;
-  const int screenHeight = 450;
+  int screenWidth = 1920;
+  int screenHeight = 1080;
+
+  printf("x: %d, y: %d\n", screenWidth, screenHeight);
 
   const int fontHeight = screenHeight/3;
 
